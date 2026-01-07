@@ -4,6 +4,10 @@ import { pool } from '../db.js';
 
 
 export const login = async (req, res) => {
+
+  console.log('Headers:', req.headers);
+  console.log('Body raw:', req.body);
+
   const { email, password } = req.body;
 
   try {
@@ -17,7 +21,7 @@ export const login = async (req, res) => {
     }
 
     const usuario = result.rows[0];
-    const match = await bcrypt.compare(password, usuario.password);
+    const match = await bcrypt.compare(password, usuario.password_hash);
 
     if (!match) {
       return res.status(401).json({ error: 'Contraseña incorrecta' });
