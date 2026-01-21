@@ -4,10 +4,6 @@ import { pool } from '../db.js';
 
 
 export const login = async (req, res) => {
-
-  console.log('Headers:', req.headers);
-  console.log('Body raw:', req.body);
-
   const { email, password } = req.body;
 
   try {
@@ -27,8 +23,9 @@ export const login = async (req, res) => {
       return res.status(401).json({ error: 'Contraseña incorrecta' });
     }
 
-    const token = jwt.sign({ id: usuario.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token });
+   const token = jwt.sign({ id: usuario.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.json( token );
+    console.log(token);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
